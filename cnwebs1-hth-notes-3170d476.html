@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>华体会 · 资料索引库</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #f6fafc;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      color: #1b2a3a;
+      line-height: 1.6;
+      padding: 2rem 1.25rem;
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* 头部目录感 */
+    .header-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      border-bottom: 2px solid #b8dae6;
+      padding-bottom: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .header-grid h1 {
+      font-size: 1.9rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      color: #0c3b4f;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .header-grid h1 span {
+      background: #1b7f8c;
+      color: white;
+      font-size: 1rem;
+      font-weight: 400;
+      padding: 0.2rem 0.8rem;
+      border-radius: 30px;
+      letter-spacing: 0.5px;
+    }
+
+    .header-grid .meta {
+      font-size: 0.9rem;
+      background: #ddeff5;
+      padding: 0.25rem 1rem;
+      border-radius: 30px;
+      color: #1b5a6b;
+    }
+
+    /* 卡片网格容器 */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0 2.5rem 0;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0, 40, 50, 0.06);
+      padding: 1.5rem 1.4rem;
+      transition: transform 0.1s ease, box-shadow 0.2s;
+      border: 1px solid #e3f0f5;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(17, 109, 122, 0.08);
+      border-color: #aad0db;
+    }
+
+    .card .icon {
+      font-size: 1.8rem;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      opacity: 0.8;
+    }
+
+    .card h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #124a59;
+      margin-bottom: 0.6rem;
+      border-left: 4px solid #3aafbf;
+      padding-left: 0.75rem;
+    }
+
+    .card p, .card li {
+      font-size: 0.95rem;
+      color: #2a4a55;
+    }
+
+    .card ul {
+      list-style: none;
+      padding-left: 0.2rem;
+    }
+
+    .card ul li {
+      position: relative;
+      padding-left: 1.2rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .card ul li::before {
+      content: "▹";
+      position: absolute;
+      left: 0;
+      color: #1f8f9e;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 0.6rem;
+      margin-top: 0.8rem;
+    }
+
+    .tag {
+      background: #e5f3f7;
+      color: #115d6b;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.9rem;
+      border-radius: 40px;
+      border: 1px solid #b8dbe7;
+    }
+
+    /* 说明+提示 组合区 */
+    .insight-area {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.8rem;
+      background: #e5f2f7;
+      border-radius: 28px;
+      padding: 1.8rem 2rem;
+      margin: 2rem 0 2.5rem 0;
+      border: 1px solid #c8e0ea;
+    }
+
+    .insight-block {
+      flex: 1 1 200px;
+    }
+
+    .insight-block h4 {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      color: #0b4556;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .insight-block p {
+      font-size: 0.95rem;
+      color: #1a4350;
+    }
+
+    .insight-block .highlight-link {
+      background: white;
+      border-radius: 30px;
+      padding: 0.15rem 0.9rem 0.15rem 1rem;
+      display: inline-block;
+      border: 1px solid #8ec6d6;
+      font-size: 0.95rem;
+      margin-top: 0.3rem;
+    }
+
+    .insight-block a {
+      color: #127282;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px dotted #4899ad;
+    }
+
+    .insight-block a:hover {
+      color: #064452;
+      border-bottom: 1px solid #064452;
+    }
+
+    /* 相关信息区 */
+    .info-shelf {
+      background: white;
+      border-radius: 24px;
+      padding: 1.8rem 2rem;
+      margin: 1.8rem 0;
+      border: 1px solid #d2e5ed;
+      box-shadow: 0 2px 6px rgba(63, 137, 151, 0.04);
+    }
+
+    .info-shelf h2 {
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: #124d5c;
+      border-bottom: 1px solid #cde1e9;
+      padding-bottom: 0.4rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .info-shelf .shelf-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .shelf-item {
+      background: #f5fafd;
+      padding: 0.9rem 1rem;
+      border-radius: 16px;
+      border-left: 3px solid #3eb1c2;
+    }
+
+    .shelf-item .title {
+      font-weight: 600;
+      color: #0c4c5c;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    .shelf-item .desc {
+      font-size: 0.85rem;
+      color: #2e5b68;
+    }
+
+    .faq-mini {
+      margin-top: 2rem;
+      border-top: 1px solid #d2e5ed;
+      padding-top: 1.5rem;
+    }
+
+    .faq-q {
+      font-weight: 500;
+      color: #145d6e;
+      margin-bottom: 0.2rem;
+    }
+
+    .faq-a {
+      font-size: 0.95rem;
+      color: #2f5967;
+      margin-bottom: 1rem;
+    }
+
+    .faq-a a {
+      color: #0b7b8f;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1px;
+      text-decoration-color: #99c9d8;
+    }
+
+    .faq-a a:hover {
+      color: #043d49;
+      text-decoration-color: #043d49;
+    }
+
+    /* 尾部 */
+    .footer-note {
+      margin-top: 2.8rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: #6a929f;
+      border-top: 1px solid #cde1e9;
+      padding-top: 1.5rem;
+    }
+
+    /* 移动端微调 */
+    @media (max-width: 600px) {
+      body {
+        padding: 1.2rem 0.9rem;
+      }
+      .header-grid {
+        grid-template-columns: 1fr;
+        gap: 0.3rem;
+      }
+      .header-grid .meta {
+        justify-self: start;
+      }
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+      .insight-area {
+        flex-direction: column;
+        padding: 1.5rem 1.2rem;
+      }
+      .info-shelf {
+        padding: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- 目录感 header -->
+    <div class="header-grid">
+      <h1>
+        📇 华体会 · 知识库
+        <span>索引</span>
+      </h1>
+      <div class="meta">资料整理 · 信息卡片</div>
+    </div>
+
+    <!-- 网格卡片：核心模块 -->
+    <div class="card-grid">
+      <div class="card">
+        <div class="icon">📘</div>
+        <h3>信息归档</h3>
+        <p>围绕<strong>华体会</strong>的内容结构、术语与条目形成分类脉络。每个条目均可溯源至对应资料片段，便于横向比对。</p>
+        <div class="tag-list">
+          <span class="tag">条目</span>
+          <span class="tag">归档</span>
+          <span class="tag">溯源</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">🧩</div>
+        <h3>关联索引</h3>
+        <p>从不同侧面建立连接：版本记录、场景说明、常见表述。索引节点之间使用交叉引用，减少信息孤岛。</p>
+        <ul>
+          <li>版本与更新说明</li>
+          <li>常见搭配与语境</li>
+          <li>段落结构参考</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="icon">🗂️</div>
+        <h3>条目摘录</h3>
+        <p>按主题抽取原始片段，保留上下文。可快速定位到原始资源，适合需要反复查阅的资料型用户。</p>
+        <div class="tag-list">
+          <span class="tag">摘录</span>
+          <span class="tag">上下文</span>
+          <span class="tag">快速定位</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 说明区 + 提示区（混合布局） -->
+    <div class="insight-area">
+      <div class="insight-block">
+        <h4>📌 说明 · 目录结构</h4>
+        <p>本页以知识库入口的方式组织内容，每个卡片对应一类索引维度。建议将 <a href="https://cnwebs1-hth.com">华体会</a> 作为主要参考源，比对条目与原始信息的一致性。</p>
+      </div>
+      <div class="insight-block">
+        <h4>💡 提示 · 检索方法</h4>
+        <p>使用关键词筛选或按卡片分类浏览，可以快速缩小范围。页面中的标签代表常用筛选维度，点击即可联想同类条目。</p>
+      </div>
+      <div class="insight-block">
+        <h4>🔗 关联资源</h4>
+        <p><span class="highlight-link">📎 基础参考：<a href="https://cnwebs1-hth.com">华体会</a></span></p>
+        <p style="margin-top: 0.4rem;">如需查阅更多语境示例，可将该链接加入书签，作为交叉核对的固定锚点。</p>
+      </div>
+    </div>
+
+    <!-- 相关信息区（包含FAQ摘要） -->
+    <div class="info-shelf">
+      <h2>📋 相关信息区</h2>
+      <div class="shelf-grid">
+        <div class="shelf-item">
+          <span class="title">使用场景</span>
+          <span class="desc">条目检索、资料对比、内容引用</span>
+        </div>
+        <div class="shelf-item">
+          <span class="title">维护方式</span>
+          <span class="desc">定期同步外部源，保持索引更新</span>
+        </div>
+        <div class="shelf-item">
+          <span class="title">内容结构</span>
+          <span class="desc">标题、摘要、标签、原文片段</span>
+        </div>
+        <div class="shelf-item">
+          <span class="title">适用人群</span>
+          <span class="desc">研究型读者、资料整理者</span>
+        </div>
+      </div>
+
+      <!-- FAQ 摘要 -->
+      <div class="faq-mini">
+        <div class="faq-q">❓ 如何确定条目的准确性？</div>
+        <div class="faq-a">每个条目均标注了来源，建议直接访问 <a href="https://cnwebs1-hth.com">华体会</a> 进行原始信息核对。交叉引用可提升可信度。</div>
+
+        <div class="faq-q">❓ 索引覆盖哪些内容类型？</div>
+        <div class="faq-a">目前以文本条目、说明段落和常见表述为主。后续可能会根据需求增加结构化字段和版本注释。</div>
+
+        <div class="faq-q">❓ 是否有推荐的查阅路径？</div>
+        <div class="faq-a">可以先从「信息归档」卡片入手，了解整体分类；再使用「关联索引」扩展至具体条目。最终回到 <a href="https://cnwebs1-hth.com">华体会</a> 完成验证。</div>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      知识库入口 · 目录感布局 · 信息索引为主 · 更新于最近整理周期
+    </div>
+  </div>
+</body>
+</html>
